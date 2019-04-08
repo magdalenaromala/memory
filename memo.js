@@ -5,6 +5,69 @@ let cards = document.querySelectorAll('div')
 //zamieniam node list na tablice
 cards = [...cards];
 
+//karta która jest odsłonięta
+let activeCard="";
+
+//para która jest odsłonięta
+let activePair=[];
+
+//ile par jest w sumie
+let cardPairs=cards.length/2;
+let cardResult = 0;
+
+
+
+//definiuje funkcje do add event listenera
+const clickCard = function(){
+    //umieszczam w active card info co klikneliśmy i zdejmuje klase 
+    activeCard=this;
+    activeCard.classList.remove('on');
+    //pierwsze kliknięcie
+    if(activePair.length === 0){
+        activePair[0] = activeCard;
+        return
+    }
+   
+    //drugie kliknięcie
+    else{
+        //blokujemy możliwośc kliknięcia
+        cards.forEach(function(card){
+        card.removeEventListener('click',clickCard)
+        activePair[1]= activeCard;
+        //wygrana
+       setTimeout(function(){
+        if (activePair[0].className === activePair[1].className) {
+            activePair.forEach(card => card.classList.add("off"))
+            //dodaje odgagniętą pare
+            cardResult++;
+            //sprawdzam koniec gry
+            if(cardResult== cardPairs){
+                const endTime = new Date().getTime();
+                 const gameTime = (endTime - startTime) / 1000
+                 alert (`Twój czas to ${gameTime} sekund`)
+                location.reload();
+            }
+            
+        }
+        //przegrana
+        else{
+            console.log('przegrana')
+            activePair.forEach(card => card.classList.add('on'))
+        }
+        //resetuje zmienne
+        activePair.length=0;
+        activeCard='';
+        cards.forEach(card => card.addEventListener('click', clickCard))
+       }, 1000)
+           
+            } )
+        
+        
+    }
+};
+
+
+        
 
 
 //funkcja losująca kolory
