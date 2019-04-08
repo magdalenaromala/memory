@@ -5,6 +5,11 @@ let cards = document.querySelectorAll('div')
 //zamieniam node list na tablice
 cards = [...cards];
 
+
+//robie timer pobierając aktualny czas
+let startTime= new Date().getTime();
+let time = document.querySelector('h1')
+
 //karta która jest odsłonięta
 let activeCard="";
 
@@ -90,7 +95,7 @@ const changeColor = function(){
         //funkcja nasluchująca klikanie w karty
         card.addEventListener('click', clickCard)
         })
-    },2000)
+    },0)
 
 }
  changeColor()
